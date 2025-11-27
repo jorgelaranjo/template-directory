@@ -89,7 +89,7 @@ const { site, title, tagline } = Astro.props;
         <header class="nu-u-mb-10 nu-u-mt-10">
             <div class="container">
                 <h1
-                    class="nu-c-h3 nu-u-text--primary nu-u-mt-0 nu-u-mb-2 title"
+                    class="nu-c-h4 nu-u-text--primary nu-u-mt-0 nu-u-mb-2 title"
                 >
                     {title}
                 </h1>
@@ -134,6 +134,18 @@ const { site, title, tagline } = Astro.props;
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+    }
+    html[data-new-ui-theme*="dark"] {
+        --link: #F55000;
+        --link-hover: #F55000;
+        --link-visited: #F55000;
+        --border-focus: #F55000;
+    }
+    html[data-new-ui-theme*="light"] {
+        --link: #F55000;
+        --link-hover: #F55000;
+        --link-visited: #F55000;
+        --border-focus: #F55000;
     }
     html {
         font-family: var(--body-copy);
