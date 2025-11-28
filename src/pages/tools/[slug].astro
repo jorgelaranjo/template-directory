@@ -43,6 +43,7 @@ const domain = extractDomain(tool.url || '');
 const formattedDate = formatDate(tool['date-added']);
 const canonicalUrl = `https://riseofmachine.com/tools/${tool.slug}`;
 const faviconUrl = `https://www.google.com/s2/favicons?sz=128&domain=${domain}`;
+const fallbackPath = category === 'all' ? '/' : `/${category}`;
 
 const pageTitle = `${tool.title} - AI Tool | Rise of Machine`;
 const pageDescription = `${tool.title}: ${tool.body} | ${tool.tag}`;
@@ -67,12 +68,6 @@ type MetadataBlock = {
     emails: string[];
     phones: string[];
     contactUrls: string[];
-  };
-  extras: {
-    themeColor: string | null;
-    keywords: string | null;
-    twitterCard: string | null;
-    applicationName: string | null;
   };
 } | null;
 
@@ -107,14 +102,6 @@ const hasBrandMetadata = Boolean(
       liveMetadata.brand.emails.length ||
       liveMetadata.brand.phones.length ||
       liveMetadata.brand.contactUrls.length)
-);
-
-const hasExtraMetadata = Boolean(
-  liveMetadata &&
-    (liveMetadata.extras.themeColor ||
-      liveMetadata.extras.keywords ||
-      liveMetadata.extras.twitterCard ||
-      liveMetadata.extras.applicationName)
 );
 
 function normalizeToolUrl(rawUrl: string | undefined | null) {
@@ -272,13 +259,6 @@ async function fetchExternalMetadata(targetUrl: string): Promise<MetadataBlock> 
           phones: phoneNumbers,
           contactUrls,
         },
-        extras: {
-          themeColor: pickMetaByName("theme-color"),
-          keywords: pickMetaByName("keywords"),
-          twitterCard:
-            root.querySelector('meta[name="twitter:card"]')?.getAttribute("content")?.trim() ?? null,
-          applicationName: pickMetaByName("application-name"),
-        },
       };
     } catch (error) {
       if ((error as Error).name === "AbortError") {
@@ -312,7 +292,7 @@ async function fetchExternalMetadata(targetUrl: string): Promise<MetadataBlock> 
 
   <main>
     <div class="tool-detail-modal-backdrop" id="modalBackdrop">
-      <div class="tool-detail-modal" id="toolModal">
+      <div class="tool-detail-modal" id="toolModal" data-fallback={fallbackPath}>
         <button class="tool-detail-close-btn" id="closeModal" title="Close (Press ESC)" aria-label="Close tool details">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
@@ -485,7 +465,7 @@ async function fetchExternalMetadata(targetUrl: string): Promise<MetadataBlock> 
                         <div class="live-card">
                           <p class="live-label">Email</p>
                           <ul class="list-pills">
-                            {liveMetadata.brand.emails.map((email) => (
+                            {liveMetadata.brand.emails.map((email: string) => (
                               <li><a href={`mailto:${email}`} class="live-link">{email}</a></li>
                             ))}
                           </ul>
@@ -495,7 +475,7 @@ async function fetchExternalMetadata(targetUrl: string): Promise<MetadataBlock> 
                         <div class="live-card">
                           <p class="live-label">Phone</p>
                           <ul class="list-pills">
-                            {liveMetadata.brand.phones.map((phone) => (
+                            {liveMetadata.brand.phones.map((phone: string) => (
                               <li><a href={`tel:${phone}`} class="live-link">{phone}</a></li>
                             ))}
                           </ul>
@@ -505,7 +485,7 @@ async function fetchExternalMetadata(targetUrl: string): Promise<MetadataBlock> 
                         <div class="live-card">
                           <p class="live-label">Contact links</p>
                           <ul class="list-pills">
-                            {liveMetadata.brand.contactUrls.map((link) => (
+                            {liveMetadata.brand.contactUrls.map((link: string) => (
                               <li><a href={link} target="_blank" rel="noopener noreferrer" class="live-link">{extractDomain(link) || link}</a></li>
                             ))}
                           </ul>
@@ -515,40 +495,6 @@ async function fetchExternalMetadata(targetUrl: string): Promise<MetadataBlock> 
                   </article>
                 )}
 
-                {hasExtraMetadata && liveMetadata && (
-                  <article class="live-group">
-                    <p class="live-group-label">Instant extras</p>
-                    <div class="live-card-grid">
-                      {liveMetadata.extras.themeColor && (
-                        <div class="live-card">
-                          <p class="live-label">Theme color</p>
-                          <div class="theme-chip">
-                            <span class="color-dot" style={`background-color: ${liveMetadata.extras.themeColor};`}></span>
-                            <span class="live-value">{liveMetadata.extras.themeColor}</span>
-                          </div>
-                        </div>
-                      )}
-                      {liveMetadata.extras.applicationName && (
-                        <div class="live-card">
-                          <p class="live-label">App name</p>
-                          <p class="live-value">{liveMetadata.extras.applicationName}</p>
-                        </div>
-                      )}
-                      {liveMetadata.extras.twitterCard && (
-                        <div class="live-card">
-                          <p class="live-label">Twitter card</p>
-                          <p class="live-value">{liveMetadata.extras.twitterCard}</p>
-                        </div>
-                      )}
-                      {liveMetadata.extras.keywords && (
-                        <div class="live-card">
-                          <p class="live-label">Keywords</p>
-                          <p class="live-value">{liveMetadata.extras.keywords}</p>
-                        </div>
-                      )}
-                    </div>
-                  </article>
-                )}
               </div>
             </section>
           )}
@@ -581,14 +527,26 @@ async function fetchExternalMetadata(targetUrl: string): Promise<MetadataBlock> 
 
   <script type="module">
     (function () {
+      const modalEl = document.getElementById('toolModal');
+      const fallbackNavigateTo = modalEl?.dataset.fallback || '/';
+      const hasSameOriginReferrer = (() => {
+        try {
+          if (!document.referrer) return false;
+          const ref = new URL(document.referrer);
+          return ref.origin === window.location.origin;
+        } catch {
+          return false;
+        }
+      })();
+
       function closeModal() {
         // remove modal marker before navigating back
         document.body.removeAttribute('data-modal-open');
         document.body.style.overflow = '';
-        if (window.history.length > 1) {
+        if (hasSameOriginReferrer && window.history.length > 1) {
           window.history.back();
         } else {
-          window.location.href = '/';
+          window.location.href = fallbackNavigateTo;
         }
       }
 
@@ -738,8 +696,6 @@ async function fetchExternalMetadata(targetUrl: string): Promise<MetadataBlock> 
     .favicon-preview img { border-radius: var(--spacing-02); border:1px solid var(--border-muted); }
     .list-pills { list-style:none; padding:0; margin:0; display:flex; flex-wrap:wrap; gap: var(--spacing-02); }
     .list-pills li { background-color: var(--background-secondary); border-radius: var(--spacing-02); padding: 2px var(--spacing-03); font-size: var(--desktop-caption); color: var(--content-secondary); }
-    .theme-chip { display:flex; align-items:center; gap: var(--spacing-03); }
-    .color-dot { width:16px; height:16px; border-radius:999px; border:1px solid var(--border-muted); display:inline-flex; }
 
     .share-buttons { display:flex; gap: var(--spacing-03); }
     .share-btn { width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius: var(--spacing-02); background-color: var(--background-secondary); border:1px solid var(--border-muted); color:var(--content-secondary); }
