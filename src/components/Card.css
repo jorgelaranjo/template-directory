@@ -8,33 +8,32 @@
     position: relative;
     --shadow-color: rgb(0 0 0 / 0.04);
     box-shadow:
-        0px 0px 0px 1px var(--background-selected),
+        0px 0px 0px 0.5px var(--background-selected),
         0px 1px 1px -0.5px var(--shadow-color),
         0px 3px 3px -1.5px var(--shadow-color),
         0px 12px 12px -6px var(--shadow-color);
     content-visibility: auto;
     contain-intrinsic-size: 8.5rem;
-    will-change: transform;
+    transition: box-shadow 0.2s ease-out;
 }
 
 .link-card > a {
     width: 100%;
     text-decoration: none;
     padding: 0.8rem 1.2rem;
-    color: var(--accent);
+    color: var(--content-primary);
     justify-content: space-between;
 }
 
 p {
-    color: var(--text-secondary);
+    color: var(--content-secondary);
 }
 
 .link-card:is(:hover, :focus-within) {
-    transition: box-shadow 0.2s ease-out;
     background-position: 0;
     background: var(--background);
     box-shadow:
-        0px 0px 0px 2px var(--link),
+        0px 0px 0px 1.5px var(--link),
         0px 1px 1px -0.5px var(--shadow-color),
         0px 3px 3px -1.5px var(--shadow-color),
         0px 12px 12px -6px var(--shadow-color);
@@ -44,6 +43,8 @@ p.distribution {
     margin: var(--spacing-00);
     position: absolute;
     bottom: var(--spacing-06);
+    display: flex;
+    gap: var(--spacing-02);
 }
 
 span.tag {
@@ -51,7 +52,7 @@ span.tag {
     padding: calc(0.25rem - 1px) calc(0.5rem - 1px);
     border-radius: var(--spacing-02);
     display: inline-block;
-    color: var(--text-secondary);
+    color: var(--content-secondary);
     margin-top: var(--spacing-08);
     font-size: var(--desktop-caption);
     line-height: var(--lh-desktop-caption);
@@ -63,7 +64,7 @@ span.tag-new {
     padding: calc(0.25rem - 1px) calc(0.5rem - 1px);
     border-radius: var(--spacing-02);
     display: inline-block;
-    color: var(--text-warning);
+    color: var(--content-warning);
     margin-top: var(--spacing-08);
     font-size: var(--desktop-caption);
     line-height: var(--lh-desktop-caption);

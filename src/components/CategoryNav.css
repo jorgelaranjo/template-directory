@@ -1,4 +1,4 @@
-.category-nav-container {
+  .category-nav-container {
 	position: sticky;
 	top: 0;
 	width: 100%;
@@ -10,7 +10,7 @@
   
   .category-nav {
 	width: 100%;
-	box-shadow: inset 0px -1px 0px var(--border-muted);
+	box-shadow: inset 0px -0.5px 0px var(--border-muted);
 	white-space: nowrap;
 	overflow-x: scroll;
 	overflow-y: hidden;
@@ -57,13 +57,13 @@
 	border-radius: 50%;
 	padding: var(--spacing-02);
 	pointer-events: auto;
-	color: var(--icon-secondary);
+	color: var(--content-secondary);
 	-webkit-backdrop-filter: blur(.5rem);
 	backdrop-filter: blur(.5rem);
   }
 
   .nav-fade:hover .nav-arrow-icon {
-	color: var(--icon-primary);
+	color: var(--content-primary);
   }
   
   .nav-fade-left.show {
@@ -73,3 +73,5 @@
   .nav-fade-right.hide {
 	opacity: 0;
   }
+
+  

@@ -1,0 +1,31 @@
+# Rise of Machine
+1000+ AI tools curated by agents for founders and SMBs 
+
+## Categories
+
+- [Art](https://riseofmachine.com/art)
+- [Audio](https://riseofmachine.com/audio)
+- [Code](https://riseofmachine.com/code)
+- [Copywriting](https://riseofmachine.com/copywriting)
+- [Design](https://riseofmachine.com/design)
+- [Developer](https://riseofmachine.com/developer)
+- [Education](https://riseofmachine.com/education)
+- [Enterprise](https://riseofmachine.com/enterprise)
+- [Fashion](https://riseofmachine.com/fashion)
+- [Gaming](https://riseofmachine.com/gaming)
+- [Health](https://riseofmachine.com/health)
+- [Legal](https://riseofmachine.com/legal)
+- [LLM](https://riseofmachine.com/llm)
+- [Music](https://riseofmachine.com/music)
+- [NoCode](https://riseofmachine.com/nocode)
+- [Photos](https://riseofmachine.com/photos)
+- [Productivity](https://riseofmachine.com/productivity)
+- [Prompts](https://riseofmachine.com/prompts)
+- [Research](https://riseofmachine.com/research)
+- [SEO](https://riseofmachine.com/seo)
+- [Social](https://riseofmachine.com/social)
+- [Video](https://riseofmachine.com/video)
+- [Xtras](https://riseofmachine.com/xtras)
+
+
+

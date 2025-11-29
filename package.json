@@ -1,8 +1,7 @@
 {
   "name": "riseofmachine",
-  "version": "2.05.0",
-  "rhyver": "v2.25Q1.05.0",
-  "description": "Discover AI tools curated for makers and SMBs.",
+  "version": "3.1.1",
+  "description": "Discover AI tools curated by agents for founders and SMBs.",
   "type": "module",
   "private": false,
   "main": "src/data/tools.json",
@@ -10,24 +9,26 @@
     "src/data/tools.json"
   ],
   "scripts": {
-    "dev": "astro dev",
+    "dev": "node scripts/add-slugs.js && astro dev",
     "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro dev",
-    "astro": "astro"
+    "build": "node scripts/add-slugs.js && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check-data": "node scripts/check-data.js"
   },
   "dependencies": {
-    "@astrojs/netlify": "^6.3.4",
+    "@astrojs/netlify": "^6.6.3",
     "@astrojs/partytown": "^2.1.4",
-    "@astrojs/react": "^4.3.0",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "astro": "^5.9.2",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "@astrojs/react": "^4.4.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "astro": "^5.16.2",
+    "node-html-parser": "^7.0.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@new-ui/foundations": "^0.2.5"
+    "@new-ui/foundations": "^0.3.2"
   },
   "repository": {
     "type": "git",
